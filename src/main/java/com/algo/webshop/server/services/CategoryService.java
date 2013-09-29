@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Category;
 import com.algo.webshop.common.domainimpl.ICategory;
+import com.algo.webshop.server.jdbc.CategoryRowMapper;
 
 @Service("categoryService")
 public class CategoryService implements ICategory {
@@ -27,8 +28,9 @@ public class CategoryService implements ICategory {
 
 	@Override
 	public List<Category> getCategorys() {
-		// TODO Auto-generated method stub
-		return null;
+		String SQL = "select * from categorys";
+		List<Category> categoryList = jdbcTemplate.query(SQL, new CategoryRowMapper());
+		return categoryList;
 	}
 
 	@Override
