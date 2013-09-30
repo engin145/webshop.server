@@ -22,8 +22,10 @@ public class CategoryService implements ICategory {
 	
 	@Override
 	public Category getCategory(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String SQL = "select * from categorys where id = ?";
+		Category category = jdbcTemplate.queryForObject(SQL, new Object[] { id },
+				new CategoryRowMapper());
+		return category;
 	}
 
 	@Override
@@ -41,13 +43,15 @@ public class CategoryService implements ICategory {
 
 	@Override
 	public void updateCategory(Category category) {
-		// TODO Auto-generated method stub
+		String SQL = "update categorys set name=? where id=?";
+		jdbcTemplate.update(SQL, category.getName(), category.getId());
 		
 	}
 
 	@Override
 	public void delCategory(int id) {
-		// TODO Auto-generated method stub
+		String SQL = "delete from categorys where id = ?";
+		jdbcTemplate.update(SQL, id);
 		
 	}
 
