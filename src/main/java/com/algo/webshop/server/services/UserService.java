@@ -67,5 +67,13 @@ public class UserService implements IUser {
 		String SQL = "delete from users where id = ?";
 		jdbcTemplate.update(SQL, id);
 	}
+	
+	@Override
+	public String getUserName(int id){
+		String SQL = "select name from users where id = ?";
+		String name = jdbcTemplate.queryForObject(SQL, String.class);
+
+		return name;
+	}
 
 }
