@@ -27,6 +27,12 @@
 		<property name="service" ref="goodService" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IGood" />
 	</bean>
+	
+	<bean name="/PriceService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="priceService" />
+		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IPrice" />
+	</bean>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -49,6 +55,10 @@
 	</bean>
 	
 	<bean id="goodService" class="com.algo.webshop.server.services.GoodService">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
+	<bean id="priceService" class="com.algo.webshop.server.services.PriceService">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
