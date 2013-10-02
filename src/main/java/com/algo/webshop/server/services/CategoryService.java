@@ -1,6 +1,7 @@
 package com.algo.webshop.server.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -53,6 +54,12 @@ public class CategoryService implements ICategory {
 		String SQL = "delete from categorys where id = ?";
 		jdbcTemplate.update(SQL, id);
 		
+	}
+	
+	public Map<String, Object> getMapCategory(){
+		String SQL = "select * from categorys";
+		Map<String, Object> m = jdbcTemplate.queryForMap(SQL, new CategoryRowMapper());
+		return m;
 	}
 
 }
