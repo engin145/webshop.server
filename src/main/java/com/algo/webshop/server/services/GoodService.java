@@ -51,4 +51,11 @@ public class GoodService implements IGood {
 		jdbcTemplate.update(SQL, id);
 	}
 
+	@Override
+	public String getLongDescription(int good_id) {
+		String SQL = "select name from long_descriptions where goods_id=?";
+		return jdbcTemplate.queryForObject(SQL, new Object[]{good_id}, String.class);
+	}
+	
+
 }
