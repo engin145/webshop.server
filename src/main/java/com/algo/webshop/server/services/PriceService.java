@@ -29,15 +29,16 @@ public class PriceService implements IPrice{
 
 	@Override
 	public List<Price> getMaxDateAllPrice() {
-		String SQL = "SELECT goods_id, value FROM prices WHERE (goods_id, date) IN (SELECT goods_id, MAX(date) FROM prices GROUP BY goods_id)";
+		String SQL = "SELECT * FROM prices WHERE (goods_id, date) IN (SELECT goods_id, MAX(date) FROM prices GROUP BY goods_id)";
 		List<Price> priceList = jdbcTemplate.query(SQL ,new PriceRowMapper());
 		return priceList;
 	}
 
 	@Override
-	public Price getPrice(Integer goodId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Price getMaxDatePriceByOneGood(int goodId) {
+		String SQL = "SELECT * FROM prices WHERE (goods_id, date) IN (SELECT goods_id, MAX(date) FROM prices GROUP BY goods_id) AND goods_id=?";
+		Price price = jdbcTemplate.queryForObject(SQL ,new Object[]{goodId},new PriceRowMapper());
+		return price;
 	}
 
 	@Override
@@ -51,4 +52,13 @@ public class PriceService implements IPrice{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Price> getMaxDatePriceByOneCategory(int categoryId) {
+		String SQL = "SELECT * FROM (select * from prices where goods_id in (select id from goods where category_id=?)) as t1 WHERE (t1.goods_id, t1.date) IN (SELECT goods_id, MAX(date) FROM prices GROUP BY goods_id)";
+		List<Price> priceList = jdbcTemplate.query(SQL ,new Object[]{categoryId},new PriceRowMapper());
+		return priceList;
+	}
+	
+	
 }

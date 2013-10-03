@@ -18,4 +18,6 @@ public class UserRowMapper implements RowMapper<User> {
 	      user.setPass(rs.getString("pass"));
 	      return user;
 	   }
+	   
+	    
 	}
