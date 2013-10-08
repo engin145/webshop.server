@@ -3,6 +3,7 @@ package com.algo.webshop.server.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +30,22 @@ public class UserService implements IUser {
 
 	@Override
 	public User getUserByLogPass(String login, String pass) {
+		User user;
 		String SQL = "select * from users where login=? AND pass=?";
-		User user = jdbcTemplate.queryForObject(SQL,
-				new Object[] { login, pass }, new UserRowMapper());
+		try {
+			user = jdbcTemplate.queryForObject(SQL, new Object[] { login,
+					pass }, new UserRowMapper());
+		} catch (EmptyResultDataAccessException ex) {
+			user =null;
+		}
 		return user;
 	}
 
 	@Override
 	public User getUserById(String id) {
 		String SQL = "select * from users where id = ?";
-		User user = jdbcTemplate.queryForObject(SQL, new Object[] {id}, new UserRowMapper());
+		User user = jdbcTemplate.queryForObject(SQL, new Object[] { id },
+				new UserRowMapper());
 		return user;
 	}
 
@@ -67,9 +74,9 @@ public class UserService implements IUser {
 		String SQL = "delete from users where id = ?";
 		jdbcTemplate.update(SQL, id);
 	}
-	
+
 	@Override
-	public String getUserName(int id){
+	public String getUserName(int id) {
 		String SQL = "select name from users where id = ?";
 		String name = jdbcTemplate.queryForObject(SQL, String.class);
 
