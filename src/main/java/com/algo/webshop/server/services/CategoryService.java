@@ -46,7 +46,6 @@ public class CategoryService implements ICategory {
 	public void updateCategory(Category category) {
 		String SQL = "update categorys set name=? where id=?";
 		jdbcTemplate.update(SQL, category.getName(), category.getId());
-		
 	}
 
 	@Override
