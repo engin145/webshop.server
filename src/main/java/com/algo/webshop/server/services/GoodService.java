@@ -54,7 +54,18 @@ public class GoodService implements IGood {
 	@Override
 	public String getLongDescription(int good_id) {
 		String SQL = "select name from long_descriptions where goods_id=?";
-		return jdbcTemplate.queryForObject(SQL, new Object[]{good_id}, String.class);
+		try {
+			return jdbcTemplate.queryForObject(SQL, new Object[]{good_id}, String.class);
+		} catch (Exception e) {
+			return "non description";
+		}
+			
+	}
+	
+	@Override
+	public String getManufactur(int id) {
+		String SQL = "select name from manufacturers where id=?";
+		return jdbcTemplate.queryForObject(SQL, new Object[]{id}, String.class);
 	}
 	
 
