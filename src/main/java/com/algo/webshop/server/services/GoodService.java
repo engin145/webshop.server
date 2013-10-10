@@ -65,7 +65,12 @@ public class GoodService implements IGood {
 	@Override
 	public String getManufactur(int id) {
 		String SQL = "select name from manufacturers where id=?";
-		return jdbcTemplate.queryForObject(SQL, new Object[]{id}, String.class);
+		try {
+			return jdbcTemplate.queryForObject(SQL, new Object[]{id}, String.class);
+		} catch (Exception e) {
+			return "non manufactur";
+		}
+		
 	}
 	
 
