@@ -23,8 +23,13 @@ public class UserService implements IUser {
 	@Override
 	public User getUserByLogin(String login) {
 		String SQL = "select * from users where login = ?";
-		User user = jdbcTemplate.queryForObject(SQL, new Object[] { login },
-				new UserRowMapper());
+		User user;
+		try {
+			user = jdbcTemplate.queryForObject(SQL, new Object[] { login },
+					new UserRowMapper());
+		} catch (EmptyResultDataAccessException ex) {
+			user = null;
+		}
 		return user;
 	}
 
@@ -33,10 +38,10 @@ public class UserService implements IUser {
 		User user;
 		String SQL = "select * from users where login=? AND pass=?";
 		try {
-			user = jdbcTemplate.queryForObject(SQL, new Object[] { login,
-					pass }, new UserRowMapper());
+			user = jdbcTemplate.queryForObject(SQL,
+					new Object[] { login, pass }, new UserRowMapper());
 		} catch (EmptyResultDataAccessException ex) {
-			user =null;
+			user = null;
 		}
 		return user;
 	}
