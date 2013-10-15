@@ -2,8 +2,6 @@ package com.algo.webshop.server.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Good;
@@ -11,14 +9,7 @@ import com.algo.webshop.common.domainimpl.IGood;
 import com.algo.webshop.server.jdbc.GoodRowMapper;
 
 @Service("goodService")
-public class GoodService implements IGood {
-
-	@Autowired
-	protected JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+public class GoodService extends AbstractService implements IGood {
 
 	@Override
 	public Good getGood(int id) {

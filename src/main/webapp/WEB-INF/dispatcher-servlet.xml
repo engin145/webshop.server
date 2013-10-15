@@ -15,19 +15,19 @@
 		<property name="service" ref="userService" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IUser" />
 	</bean>
-	
+
 	<bean name="/CategoryService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="categoryService" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.ICategory" />
 	</bean>
-	
+
 	<bean name="/GoodService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="goodService" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IGood" />
 	</bean>
-	
+
 	<bean name="/PriceService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="priceService" />
@@ -46,20 +46,19 @@
 		<constructor-arg ref="dataSource" />
 	</bean>
 
-	<bean id="userService" class="com.algo.webshop.server.services.UserService">
+
+	<bean id="abstractService" class="com.algo.webshop.server.services.AbstractService"
+		abstract="true">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
-	<bean id="categoryService" class="com.algo.webshop.server.services.CategoryService">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
-	
-	<bean id="goodService" class="com.algo.webshop.server.services.GoodService">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
-	
-	<bean id="priceService" class="com.algo.webshop.server.services.PriceService">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
+
+	<bean id="priceService" parent="abstractService"
+		class="com.algo.webshop.server.services.PriceService" />
+	<bean id="userService" parent="abstractService"
+		class="com.algo.webshop.server.services.UserService" />
+	<bean id="categoryService" parent="abstractService"
+		class="com.algo.webshop.server.services.CategoryService" />
+	<bean id="goodService" parent="abstractService"
+		class="com.algo.webshop.server.services.GoodService" />
 
 </beans>

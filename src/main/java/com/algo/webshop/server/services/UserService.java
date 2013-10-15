@@ -2,9 +2,7 @@ package com.algo.webshop.server.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.User;
@@ -12,13 +10,7 @@ import com.algo.webshop.common.domainimpl.IUser;
 import com.algo.webshop.server.jdbc.UserRowMapper;
 
 @Service("userService")
-public class UserService implements IUser {
-	@Autowired
-	protected JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+public class UserService extends AbstractService implements IUser {
 
 	@Override
 	public User getUserByLogin(String login) {

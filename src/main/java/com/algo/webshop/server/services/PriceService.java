@@ -3,8 +3,6 @@ package com.algo.webshop.server.services;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Price;
@@ -12,15 +10,8 @@ import com.algo.webshop.common.domainimpl.IPrice;
 import com.algo.webshop.server.jdbc.PriceRowMapper;
 
 @Service("priceService")
-public class PriceService implements IPrice{
+public class PriceService extends AbstractService implements IPrice{
 	
-	@Autowired
-	protected JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-
 	@Override
 	public List<Price> getAllPrice() {
 		// TODO Auto-generated method stub
