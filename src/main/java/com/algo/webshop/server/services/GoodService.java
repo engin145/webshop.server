@@ -2,8 +2,6 @@ package com.algo.webshop.server.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Good;
@@ -11,14 +9,7 @@ import com.algo.webshop.common.domainimpl.IGood;
 import com.algo.webshop.server.jdbc.GoodRowMapper;
 
 @Service("goodService")
-public class GoodService implements IGood {
-
-	@Autowired
-	protected JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+public class GoodService extends AbstractService implements IGood {
 
 	@Override
 	public Good getGood(int id) {
@@ -65,7 +56,12 @@ public class GoodService implements IGood {
 	@Override
 	public String getManufactur(int id) {
 		String SQL = "select name from manufacturers where id=?";
-		return jdbcTemplate.queryForObject(SQL, new Object[]{id}, String.class);
+		try {
+			return jdbcTemplate.queryForObject(SQL, new Object[]{id}, String.class);
+		} catch (Exception e) {
+			return "non manufactur";
+		}
+		
 	}
 	
 

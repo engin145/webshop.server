@@ -2,9 +2,7 @@ package com.algo.webshop.server.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.User;
@@ -12,19 +10,18 @@ import com.algo.webshop.common.domainimpl.IUser;
 import com.algo.webshop.server.jdbc.UserRowMapper;
 
 @Service("userService")
-public class UserService implements IUser {
-	@Autowired
-	protected JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+public class UserService extends AbstractService implements IUser {
 
 	@Override
 	public User getUserByLogin(String login) {
 		String SQL = "select * from users where login = ?";
-		User user = jdbcTemplate.queryForObject(SQL, new Object[] { login },
-				new UserRowMapper());
+		User user;
+		try {
+			user = jdbcTemplate.queryForObject(SQL, new Object[] { login },
+					new UserRowMapper());
+		} catch (EmptyResultDataAccessException ex) {
+			user = null;
+		}
 		return user;
 	}
 
@@ -33,10 +30,10 @@ public class UserService implements IUser {
 		User user;
 		String SQL = "select * from users where login=? AND pass=?";
 		try {
-			user = jdbcTemplate.queryForObject(SQL, new Object[] { login,
-					pass }, new UserRowMapper());
+			user = jdbcTemplate.queryForObject(SQL,
+					new Object[] { login, pass }, new UserRowMapper());
 		} catch (EmptyResultDataAccessException ex) {
-			user =null;
+			user = null;
 		}
 		return user;
 	}

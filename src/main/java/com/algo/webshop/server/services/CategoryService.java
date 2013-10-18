@@ -3,8 +3,6 @@ package com.algo.webshop.server.services;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Category;
@@ -12,14 +10,7 @@ import com.algo.webshop.common.domainimpl.ICategory;
 import com.algo.webshop.server.jdbc.CategoryRowMapper;
 
 @Service("categoryService")
-public class CategoryService implements ICategory {
-	
-	@Autowired
-	protected JdbcTemplate jdbcTemplate;
-	
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+public class CategoryService extends AbstractService implements ICategory {
 	
 	@Override
 	public Category getCategory(int id) {
