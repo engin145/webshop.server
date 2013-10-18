@@ -37,9 +37,13 @@ public class CategoryService implements ICategory {
 	}
 
 	@Override
-	public void addCategory(Category category) {
+	public int addCategory(Category category) {
 		String SQL = "insert into categorys (name) values (?)";
 		jdbcTemplate.update(SQL, new Object[] {category.getName()});
+		SQL = "select * from categorys where (name) = (?)";
+		category = jdbcTemplate.queryForObject(SQL, new Object[] { category.getName() },
+				new CategoryRowMapper());
+		return category.getId();
 	}
 
 	@Override
