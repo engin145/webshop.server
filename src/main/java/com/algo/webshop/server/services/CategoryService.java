@@ -11,29 +11,30 @@ import com.algo.webshop.server.jdbc.CategoryRowMapper;
 
 @Service("categoryService")
 public class CategoryService extends AbstractService implements ICategory {
-	
+
 	@Override
 	public Category getCategory(int id) {
 		String SQL = "select * from categorys where id = ?";
-		Category category = jdbcTemplate.queryForObject(SQL, new Object[] { id },
-				new CategoryRowMapper());
+		Category category = jdbcTemplate.queryForObject(SQL,
+				new Object[] { id }, new CategoryRowMapper());
 		return category;
 	}
 
 	@Override
 	public List<Category> getCategorys() {
 		String SQL = "select * from categorys";
-		List<Category> categoryList = jdbcTemplate.query(SQL, new CategoryRowMapper());
+		List<Category> categoryList = jdbcTemplate.query(SQL,
+				new CategoryRowMapper());
 		return categoryList;
 	}
 
 	@Override
 	public int addCategory(Category category) {
 		String SQL = "insert into categorys (name) values (?)";
-		jdbcTemplate.update(SQL, new Object[] {category.getName()});
+		jdbcTemplate.update(SQL, new Object[] { category.getName() });
 		SQL = "select * from categorys where (name) = (?)";
-		category = jdbcTemplate.queryForObject(SQL, new Object[] { category.getName() },
-				new CategoryRowMapper());
+		category = jdbcTemplate.queryForObject(SQL,
+				new Object[] { category.getName() }, new CategoryRowMapper());
 		return category.getId();
 	}
 
@@ -49,10 +50,10 @@ public class CategoryService extends AbstractService implements ICategory {
 		jdbcTemplate.update(SQL, id);
 	}
 	
-	@Override
-	public Map<String, Object> getMapCategory(){
+	public Map<String, Object> getMapCategory() {
 		String SQL = "select * from categorys";
-		Map<String, Object> m = jdbcTemplate.queryForMap(SQL, new CategoryRowMapper());
+		Map<String, Object> m = jdbcTemplate.queryForMap(SQL,
+				new CategoryRowMapper());
 		return m;
 	}
 

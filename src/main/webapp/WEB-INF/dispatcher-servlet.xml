@@ -47,6 +47,12 @@
 		<property name="service" ref="priceService" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IPrice" />
 	</bean>
+	
+	<bean name="/OrderService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="orderService" />
+		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IOrder" />
+	</bean>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -78,5 +84,8 @@
 		class="com.algo.webshop.server.services.UnitService" />
 	<bean id="goodService" parent="abstractService"
 		class="com.algo.webshop.server.services.GoodService" />
+
+	<bean id="orderService" parent="abstractService"
+		class="com.algo.webshop.server.services.OrderService" />
 
 </beans>

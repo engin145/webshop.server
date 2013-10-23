@@ -2,6 +2,7 @@ package com.algo.webshop.server.services;
 
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Good;
@@ -13,9 +14,14 @@ public class GoodService extends AbstractService implements IGood {
 
 	@Override
 	public Good getGood(int id) {
-		Good good = jdbcTemplate.queryForObject(
-				"select * from goods where id=?", new Object[] { id },
-				new GoodRowMapper());
+		Good good;
+		try {
+			good = jdbcTemplate.queryForObject(
+					"select * from goods where id=?", new Object[] { id },
+					new GoodRowMapper());
+		} catch (EmptyResultDataAccessException em) {
+			good = null;
+		}
 		return good;
 
 	}
@@ -86,7 +92,7 @@ public class GoodService extends AbstractService implements IGood {
 			jdbcTemplate.update(SQL, longDescription, goods_id);
 		}
 	}
-
+	
 	@Override
 	public String getManufactur(int id) {
 		String SQL = "select name from manufacturers where id=?";
@@ -96,7 +102,6 @@ public class GoodService extends AbstractService implements IGood {
 		} catch (Exception e) {
 			return "non manufactur";
 		}
-
 	}
 
 	@Override
