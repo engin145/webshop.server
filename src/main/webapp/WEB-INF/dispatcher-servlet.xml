@@ -22,6 +22,20 @@
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.ICategory" />
 	</bean>
 
+	<bean name="/ManufacturerService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="manufacturerService" />
+		<property name="serviceInterface"
+			value="com.algo.webshop.common.domainimpl.IManufacturer" />
+	</bean>
+	
+	<bean name="/UnitService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="unitService" />
+		<property name="serviceInterface"
+			value="com.algo.webshop.common.domainimpl.IUnit" />
+	</bean>
+
 	<bean name="/GoodService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="goodService" />
@@ -58,6 +72,10 @@
 		class="com.algo.webshop.server.services.UserService" />
 	<bean id="categoryService" parent="abstractService"
 		class="com.algo.webshop.server.services.CategoryService" />
+	<bean id="manufacturerService" parent="abstractService"
+		class="com.algo.webshop.server.services.ManufacturerService" />
+		<bean id="unitService" parent="abstractService"
+		class="com.algo.webshop.server.services.UnitService" />
 	<bean id="goodService" parent="abstractService"
 		class="com.algo.webshop.server.services.GoodService" />
 

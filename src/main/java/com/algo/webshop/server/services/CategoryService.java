@@ -47,9 +47,9 @@ public class CategoryService extends AbstractService implements ICategory {
 	public void delCategory(int id) {
 		String SQL = "delete from categorys where id = ?";
 		jdbcTemplate.update(SQL, id);
-		
 	}
 	
+	@Override
 	public Map<String, Object> getMapCategory(){
 		String SQL = "select * from categorys";
 		Map<String, Object> m = jdbcTemplate.queryForMap(SQL, new CategoryRowMapper());

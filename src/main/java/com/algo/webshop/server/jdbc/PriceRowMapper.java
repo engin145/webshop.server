@@ -1,7 +1,10 @@
 package com.algo.webshop.server.jdbc;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,7 +18,10 @@ public class PriceRowMapper  implements RowMapper<Price>{
 		price.setId(rs.getInt("id"));
 		price.setGoodId(rs.getInt("goods_id"));
 		price.setValue(rs.getFloat("value"));
-		price.setDate(rs.getDate("date"));
+		Date date = rs.getDate ("date");
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		price.setCalendar(calendar);
 		return price;
 	}
 }
