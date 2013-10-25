@@ -1,6 +1,8 @@
 package com.algo.webshop.server.services;
 
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.algo.webshop.common.domain.Order;
 import com.algo.webshop.common.domain.Position;
 import com.algo.webshop.common.domainimpl.IOrder;
+import com.algo.webshop.server.jdbc.OrderRowMapper;
 
 @Service("orderService")
 public class OrderService extends AbstractService implements IOrder {
@@ -26,12 +29,6 @@ public class OrderService extends AbstractService implements IOrder {
 
 	@Override
 	public Set<Order> getOrderUser(int users_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Order> getOrders() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -63,9 +60,12 @@ public class OrderService extends AbstractService implements IOrder {
 				new Object[] { order.getNumber() });
 		for (Position good : order.getGoodList().getListPosition()) {
 			jdbcTemplate.update(SQL, good.getGoods_id(), id, good.getAmount());
-			Double goodAmountInStock = jdbcTemplate.queryForObject("select amount from goods where id=?", new Object[]{good.getGoods_id()}, Double.class);
-			goodAmountInStock = goodAmountInStock-good.getAmount();
-			jdbcTemplate.update("update goods set amount=? where id=?", goodAmountInStock, good.getGoods_id());
+			Double goodAmountInStock = jdbcTemplate.queryForObject(
+					"select amount from goods where id=?",
+					new Object[] { good.getGoods_id() }, Double.class);
+			goodAmountInStock = goodAmountInStock - good.getAmount();
+			jdbcTemplate.update("update goods set amount=? where id=?",
+					goodAmountInStock, good.getGoods_id());
 		}
 
 	}
@@ -80,6 +80,16 @@ public class OrderService extends AbstractService implements IOrder {
 	public String getLastOrderNumber() {
 		String SQL = "select number from orders where id=(SELECT max(id) FROM orders)";
 		return jdbcTemplate.queryForObject(SQL, String.class);
+	}
+
+	@Override
+	public List<Order> getOrders(int confirmStatus, int canselStatus) {
+		List<Order> orders = jdbcTemplate
+				.query("select * from orders where confirm_status_id=? and cansel_status_id=?",
+						new Object[] { confirmStatus, canselStatus },
+						new OrderRowMapper());
+
+		return null;
 	}
 
 }

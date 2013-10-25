@@ -74,14 +74,19 @@
 
 	<bean id="priceService" parent="abstractService"
 		class="com.algo.webshop.server.services.PriceService" />
+		
 	<bean id="userService" parent="abstractService"
 		class="com.algo.webshop.server.services.UserService" />
+		
 	<bean id="categoryService" parent="abstractService"
 		class="com.algo.webshop.server.services.CategoryService" />
+		
 	<bean id="manufacturerService" parent="abstractService"
 		class="com.algo.webshop.server.services.ManufacturerService" />
+		
 		<bean id="unitService" parent="abstractService"
 		class="com.algo.webshop.server.services.UnitService" />
+		
 	<bean id="goodService" parent="abstractService"
 		class="com.algo.webshop.server.services.GoodService" />
 
