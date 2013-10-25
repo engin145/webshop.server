@@ -15,6 +15,12 @@
 		<property name="service" ref="userService" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IUser" />
 	</bean>
+	
+	<bean name="/UserSystemService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="userSystemService" />
+		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IUserSystem" />
+	</bean>
 
 	<bean name="/CategoryService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
@@ -83,6 +89,9 @@
 		
 	<bean id="userService" parent="abstractService"
 		class="com.algo.webshop.server.services.UserService" />
+		
+	<bean id="userSystemService" parent="abstractService"
+		class="com.algo.webshop.server.services.UserSystemService" />	
 		
 	<bean id="categoryService" parent="abstractService"
 		class="com.algo.webshop.server.services.CategoryService" />
