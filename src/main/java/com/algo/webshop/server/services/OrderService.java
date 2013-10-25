@@ -1,14 +1,12 @@
 package com.algo.webshop.server.services;
 
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Order;
-import com.algo.webshop.common.domain.Position;
 import com.algo.webshop.common.domainimpl.IOrder;
 import com.algo.webshop.server.jdbc.OrderRowMapper;
 
@@ -54,20 +52,6 @@ public class OrderService extends AbstractService implements IOrder {
 							order.getNumber(), order.getUsers_id(),
 							order.getDate_order());
 		}
-		String SQL = "insert into order_goods (goods_id, orders_id, amount) values(?,?,?)";
-		Integer id = jdbcTemplate.queryForObject(
-				"select id from orders where number=?", Integer.class,
-				new Object[] { order.getNumber() });
-		for (Position good : order.getGoodList().getListPosition()) {
-			jdbcTemplate.update(SQL, good.getGoods_id(), id, good.getAmount());
-			Double goodAmountInStock = jdbcTemplate.queryForObject(
-					"select amount from goods where id=?",
-					new Object[] { good.getGoods_id() }, Double.class);
-			goodAmountInStock = goodAmountInStock - good.getAmount();
-			jdbcTemplate.update("update goods set amount=? where id=?",
-					goodAmountInStock, good.getGoods_id());
-		}
-
 	}
 
 	@Override
@@ -84,12 +68,17 @@ public class OrderService extends AbstractService implements IOrder {
 
 	@Override
 	public List<Order> getOrders(int confirmStatus, int canselStatus) {
-		List<Order> orders = jdbcTemplate
+		return jdbcTemplate
 				.query("select * from orders where confirm_status_id=? and cansel_status_id=?",
 						new Object[] { confirmStatus, canselStatus },
 						new OrderRowMapper());
+	}
 
-		return null;
+	@Override
+	public int getOrderIdByNumber(String number) {
+		return jdbcTemplate.queryForObject(
+				"select id from orders where number=?", Integer.class,
+				new Object[] { number });
 	}
 
 }
