@@ -6,6 +6,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algo.webshop.common.domain.Good;
+import com.algo.webshop.common.domain.GoodsList;
+import com.algo.webshop.common.domain.Position;
 import com.algo.webshop.common.domainimpl.IGood;
 import com.algo.webshop.server.jdbc.GoodRowMapper;
 
@@ -105,7 +107,7 @@ public class GoodService extends AbstractService implements IGood {
 			jdbcTemplate.update(SQL, longDescription, goods_id);
 		}
 	}
-	
+
 	@Override
 	public String getManufactur(int id) {
 		String SQL = "select name from manufacturers where id=?";
@@ -137,6 +139,7 @@ public class GoodService extends AbstractService implements IGood {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void updateGoodName(int id, String name) {
 		String SQL = "update goods set name=? where id=?";
 		jdbcTemplate.update(SQL, name, id);
@@ -181,6 +184,17 @@ public class GoodService extends AbstractService implements IGood {
 	public void updateGoodDescription(int id, String desc) {
 		String SQL = "update goods set description=? where id=?";
 		jdbcTemplate.update(SQL, desc, id);
+=======
+	public void updateAmount(GoodsList goodList) {
+		for (Position good : goodList.getListPosition()) {
+			Double goodAmountInStock = jdbcTemplate.queryForObject(
+					"select amount from goods where id=?",
+					new Object[] { good.getGoods_id() }, Double.class);
+			goodAmountInStock = goodAmountInStock - good.getAmount();
+			jdbcTemplate.update("update goods set amount=? where id=?",
+					goodAmountInStock, good.getGoods_id());
+		}
+>>>>>>> d58c3c7760a9fcef8b73698bffd71f512fc47594
 	}
 
 }
