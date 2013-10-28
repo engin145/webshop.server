@@ -1,6 +1,7 @@
 package com.algo.webshop.server.services;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -87,7 +88,7 @@ public class PriceService extends AbstractService implements IPrice {
 	
 =======
 	@Override
-	public Price getActualDatePrice(Date date, int good_id) {
+	public Price getActualDatePrice(Calendar date, int good_id) {
 		return jdbcTemplate
 				.queryForObject(
 						"select * from prices where goods_id=? and date<=? order by date desc limit 1;",
