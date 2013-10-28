@@ -1,8 +1,8 @@
 package com.algo.webshop.server.jdbc;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -16,21 +16,22 @@ public class OrderRowMapper implements RowMapper<Order> {
 	public Order mapRow(ResultSet rs, int arg1) throws SQLException {
 		Order order = new Order();
 		order.setId(rs.getInt("id"));
+		order.setUsers_id(rs.getInt("users_id"));
 		order.setNumber(rs.getString("number"));
 		order.setEmail(rs.getString("email"));
 		order.setPhone(rs.getString("phone"));
 		order.setCansel_status(rs.getInt("cansel_status_id"));
 		order.setConfirm_status(rs.getInt("confirm_status_id"));
-		Date date = rs.getDate("date_order");
+		Timestamp date = rs.getTimestamp("date_order");
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
 		order.setDate_order(calendar);
-		date = rs.getDate("date_pay");
+		date = rs.getTimestamp("date_pay");
 		if (date != null) {
 			calendar.setTime(date);
 			order.setDate_pay(calendar);
 		}
-		date = rs.getDate("date_release");
+		date = rs.getTimestamp("date_release");
 		if (date != null) {
 			calendar.setTime(date);
 			order.setDate_release(calendar);

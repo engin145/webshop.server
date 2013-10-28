@@ -20,9 +20,12 @@ public class OrderService extends AbstractService implements IOrder {
 	}
 
 	@Override
-	public Order getOrder(String number) {
-		// TODO Auto-generated method stub
-		return null;
+	public Order getOrderByNumber(String number) {
+		Order order;
+		order = jdbcTemplate.queryForObject(
+				"select * from orders where (number) = (?)", new Object[] { number },
+				new OrderRowMapper());
+		return order;
 	}
 
 	@Override
