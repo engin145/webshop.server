@@ -36,7 +36,7 @@ public class PriceService extends AbstractService implements IPrice {
 		addPrice(price);
 		return price.getValue();
 	}
-	
+
 	@Override
 	public List<Price> getAllPrice() {
 		// TODO Auto-generated method stub
@@ -65,6 +65,7 @@ public class PriceService extends AbstractService implements IPrice {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Price getActualDatePrice(Date date) {
 		
 		
@@ -73,6 +74,8 @@ public class PriceService extends AbstractService implements IPrice {
 	}
 
 	@Override
+=======
+>>>>>>> ca54b7ec27d389833e1250160356e92ea5fb5947
 	public List<Price> getMaxDatePriceByOneCategory(int categoryId) {
 		String SQL = "SELECT * FROM (select * from prices where goods_id in (select id from goods where category_id=?)) as t1 WHERE (t1.goods_id, t1.date) IN (SELECT goods_id, MAX(date) FROM prices GROUP BY goods_id)";
 		List<Price> priceList = jdbcTemplate.query(SQL,
@@ -80,5 +83,16 @@ public class PriceService extends AbstractService implements IPrice {
 		return priceList;
 	}
 
+<<<<<<< HEAD
 	
+=======
+	@Override
+	public Price getActualDatePrice(Date date, int good_id) {
+		return jdbcTemplate
+				.queryForObject(
+						"select * from prices where goods_id=? and date<=? order by date desc limit 1;",
+						new Object[] { good_id, date }, new PriceRowMapper());
+	}
+
+>>>>>>> ca54b7ec27d389833e1250160356e92ea5fb5947
 }
