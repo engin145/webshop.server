@@ -14,12 +14,6 @@ import com.algo.webshop.server.jdbc.OrderRowMapper;
 public class OrderService extends AbstractService implements IOrder {
 
 	@Override
-	public Order getOrder(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Order getOrder(String number) {
 		// TODO Auto-generated method stub
 		return null;
@@ -27,14 +21,6 @@ public class OrderService extends AbstractService implements IOrder {
 
 	@Override
 	public Set<Order> getOrderUser(int users_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Order> getOrders(Calendar dateFrom, Calendar dateTo,
-			int status_pay, int status_release, int status_cansel,
-			int status_confirm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -79,6 +65,12 @@ public class OrderService extends AbstractService implements IOrder {
 				.query("select * from orders where confirm_status_id=? and cansel_status_id=?",
 						new Object[] { confirmStatus, canselStatus },
 						new OrderRowMapper());
+	}
+
+	@Override
+	public Order getOrderById(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

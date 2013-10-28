@@ -19,6 +19,7 @@ public class OrderRowMapper implements RowMapper<Order> {
 		order.setNumber(rs.getString("number"));
 		order.setEmail(rs.getString("email"));
 		order.setPhone(rs.getString("phone"));
+		order.setUsers_id(rs.getInt("users_id"));
 		order.setCansel_status(rs.getInt("cansel_status_id"));
 		order.setConfirm_status(rs.getInt("confirm_status_id"));
 		Date date = rs.getDate("date_order");
