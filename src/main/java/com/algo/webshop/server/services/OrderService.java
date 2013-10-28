@@ -67,18 +67,18 @@ public class OrderService extends AbstractService implements IOrder {
 	}
 
 	@Override
+	public int getOrderIdByNumber(String number) {
+		return jdbcTemplate.queryForObject(
+				"select id from orders where number=?", Integer.class,
+				new Object[] { number });
+	}
+
+	@Override
 	public List<Order> getOrders(int confirmStatus, int canselStatus) {
 		return jdbcTemplate
 				.query("select * from orders where confirm_status_id=? and cansel_status_id=?",
 						new Object[] { confirmStatus, canselStatus },
 						new OrderRowMapper());
-	}
-
-	@Override
-	public int getOrderIdByNumber(String number) {
-		return jdbcTemplate.queryForObject(
-				"select id from orders where number=?", Integer.class,
-				new Object[] { number });
 	}
 
 }
