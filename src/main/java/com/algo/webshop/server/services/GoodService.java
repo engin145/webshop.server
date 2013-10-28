@@ -59,11 +59,24 @@ public class GoodService extends AbstractService implements IGood {
 				good.getAmount(), good.getUnits_id(), good.getId());
 	}
 
-	// Дописать - удалять заодно в таблице price and longDescriptions и т.
-	// д.....
+	// Удаляет если нет записей в заказах, корзине, фотографиях
 	@Override
 	public int removeGood(int id) {
-		String SQL = "delete from goods where id = ?";
+		String SQL = "delete from long_descriptions where goods_id = ?";
+		try {
+			jdbcTemplate.update(SQL, id);
+		} catch (Exception e) {
+			return 0;
+		}
+		
+		SQL = "delete from prices where goods_id = ?";
+		try {
+			jdbcTemplate.update(SQL, id);
+		} catch (Exception e) {
+			return 0;
+		}
+		
+		SQL = "delete from goods where id = ?";
 		try {
 			jdbcTemplate.update(SQL, id);
 		} catch (Exception e) {
@@ -79,14 +92,14 @@ public class GoodService extends AbstractService implements IGood {
 			return jdbcTemplate.queryForObject(SQL, new Object[] { good_id },
 					String.class);
 		} catch (Exception e) {
-			return "non description";
+			return "no description";
 		}
 
 	}
 
 	@Override
 	public void setLongDescription(int goods_id, String longDescription) {
-		if (getLongDescription(goods_id).equals("non description")) {
+		if (getLongDescription(goods_id).equals("no description")) {
 			String SQL = "insert into long_descriptions (goods_id, name) values (?,?)";
 			jdbcTemplate.update(SQL, goods_id, longDescription);
 		} else {
@@ -120,11 +133,57 @@ public class GoodService extends AbstractService implements IGood {
 			SQL += " and amount<=?";
 		else
 			SQL += " and amount>?";
+		SQL += " ORDER BY name";
 		return jdbcTemplate.query(SQL, new Object[] { category_id,
 				manufacturer_id, min, max }, new GoodRowMapper());
 	}
 
 	@Override
+	public void updateGoodName(int id, String name) {
+		String SQL = "update goods set name=? where id=?";
+		jdbcTemplate.update(SQL, name, id);
+	}
+
+	@Override
+	public void updateGoodCategory(int id, int categoryId) {
+		String SQL = "update goods set category_id=? where id=?";
+		jdbcTemplate.update(SQL, categoryId, id);
+	}
+
+	@Override
+	public void updateGoodManufacturer(int id, int manufacturerId) {
+		String SQL = "update goods set manufacturers_id=? where id=?";
+		jdbcTemplate.update(SQL, manufacturerId, id);		
+	}
+
+	@Override
+	public void updateGoodAmount(int id, float amount) {
+		String SQL = "update goods set amount=? where id=?";
+		jdbcTemplate.update(SQL, amount, id);			
+	}
+	
+	@Override
+	public float updateGoodAmountSum(int id, float amount) {
+		Good good = jdbcTemplate.queryForObject(
+				"select * from goods where id=?", new Object[] { id },
+				new GoodRowMapper());
+		amount += good.getAmount();
+		updateGoodAmount(id, amount);
+		return amount;
+	}
+
+	@Override
+	public void updateGoodUnit(int id, int unitId) {
+		String SQL = "update goods set units_id=? where id=?";
+		jdbcTemplate.update(SQL, unitId, id);
+	}
+
+	@Override
+	public void updateGoodDescription(int id, String desc) {
+		String SQL = "update goods set description=? where id=?";
+		jdbcTemplate.update(SQL, desc, id);
+	}
+		
 	public void updateAmount(GoodsList goodList) {
 		for (Position good : goodList.getListPosition()) {
 			Double goodAmountInStock = jdbcTemplate.queryForObject(
@@ -135,5 +194,7 @@ public class GoodService extends AbstractService implements IGood {
 					goodAmountInStock, good.getGoods_id());
 		}
 	}
-
+	
 }
+
+

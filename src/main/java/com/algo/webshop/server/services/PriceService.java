@@ -13,7 +13,7 @@ import com.algo.webshop.server.jdbc.PriceRowMapper;
 public class PriceService extends AbstractService implements IPrice {
 
 	@Override
-	public int addPrice(Price price) {
+	public float addPrice(Price price) {
 		String SQL = "insert into prices (value, date, goods_id) values (?,?,?)";
 		jdbcTemplate.update(SQL, price.getValue(), price.getCalendar(),
 				price.getGoodId());
@@ -22,7 +22,19 @@ public class PriceService extends AbstractService implements IPrice {
 		price = jdbcTemplate.queryForObject(SQL,
 				new Object[] { price.getCalendar(), price.getGoodId() },
 				new PriceRowMapper());
-		return price.getId();
+		return price.getValue();
+	}
+
+	@Override
+	public float addPriceSum(Price price) {
+		int goodId = price.getGoodId();
+		Price priceOld = getMaxDatePriceByOneGood(goodId);
+		float valueOld = priceOld.getValue();
+		float value = price.getValue();
+		valueOld += value;
+		price.setValue(valueOld);
+		addPrice(price);
+		return price.getValue();
 	}
 
 	@Override
