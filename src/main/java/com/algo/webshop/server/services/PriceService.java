@@ -66,6 +66,8 @@ public class PriceService extends AbstractService implements IPrice {
 
 	@Override
 	public Price getActualDatePrice(Date date) {
+		
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -78,6 +80,5 @@ public class PriceService extends AbstractService implements IPrice {
 		return priceList;
 	}
 
-
-
+	
 }

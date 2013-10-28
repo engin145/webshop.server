@@ -15,6 +15,7 @@ public class UserService extends AbstractService implements IUser {
 	@Override
 	public User getUserByLogin(String login) {
 		String SQL = "select * from users where login = ?";
+		
 		User user;
 		try {
 			user = jdbcTemplate.queryForObject(SQL, new Object[] { login },
@@ -49,6 +50,7 @@ public class UserService extends AbstractService implements IUser {
 	@Override
 	public List<User> getAllUsers() {
 		String SQL = "select * from users";
+		SQL += " ORDER BY name";
 		List<User> userList = jdbcTemplate.query(SQL, new UserRowMapper());
 		return userList;
 	}
