@@ -13,10 +13,18 @@ import com.algo.webshop.server.jdbc.OrderRowMapper;
 @Service("orderService")
 public class OrderService extends AbstractService implements IOrder {
 
-	@Override
-	public Order getOrder(String number) {
+	public Order getOrder(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Order getOrderByNumber(String number) {
+		Order order;
+		order = jdbcTemplate.queryForObject(
+				"select * from orders where (number) = (?)",
+				new Object[] { number }, new OrderRowMapper());
+		return order;
 	}
 
 	@Override
@@ -71,6 +79,15 @@ public class OrderService extends AbstractService implements IOrder {
 	public Order getOrderById(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Order> getOrdersList(int confirmStatus, int canselStatus,
+			Calendar date) {
+		return jdbcTemplate
+				.query("select * from orders where confirm_status_id=? and cansel_status_id=? and date_order>=?",
+						new Object[] { confirmStatus, canselStatus, date },
+						new OrderRowMapper());
 	}
 
 }
