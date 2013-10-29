@@ -90,4 +90,11 @@ public class OrderService extends AbstractService implements IOrder {
 						new OrderRowMapper());
 	}
 
+	@Override
+	public List<Order> getOrdersByUserId(int user_id) {
+		return jdbcTemplate
+				.query("select * from orders where users_id=?",
+						new Object[] { user_id }, new OrderRowMapper());
+	}
+
 }
