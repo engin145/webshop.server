@@ -23,18 +23,21 @@ public class OrderRowMapper implements RowMapper<Order> {
 		order.setCansel_status(rs.getInt("cansel_status_id"));
 		order.setConfirm_status(rs.getInt("confirm_status_id"));
 		Timestamp date = rs.getTimestamp("date_order");
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(date);
-		order.setDate_order(calendar);
+		Calendar calendarOrder = new GregorianCalendar();
+		calendarOrder.setTime(date);
+		order.setDate_order(calendarOrder);
 		date = rs.getTimestamp("date_pay");
 		if (date != null) {
-			calendar.setTime(date);
-			order.setDate_pay(calendar);
+			Calendar calendarPay = new GregorianCalendar();
+			calendarPay.setTime(date);
+			order.setDate_pay(calendarPay);
+			
 		}
 		date = rs.getTimestamp("date_release");
 		if (date != null) {
-			calendar.setTime(date);
-			order.setDate_release(calendar);
+			Calendar calendarRelease = new GregorianCalendar();
+			calendarRelease.setTime(date);
+			order.setDate_release(calendarRelease);
 		}
 		return order;
 	}

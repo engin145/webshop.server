@@ -60,7 +60,7 @@
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IOrder" />
 	</bean>
 	
-	<bean name="/OrderGoodService"
+	<bean name="/OrderGoodsService"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="orderOrderGood" />
 		<property name="serviceInterface" value="com.algo.webshop.common.domainimpl.IOrderGood" />
