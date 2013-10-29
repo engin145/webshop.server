@@ -13,7 +13,6 @@ import com.algo.webshop.server.jdbc.OrderRowMapper;
 @Service("orderService")
 public class OrderService extends AbstractService implements IOrder {
 
-	@Override
 	public Order getOrder(int id) {
 		// TODO Auto-generated method stub
 		return null;
@@ -23,21 +22,13 @@ public class OrderService extends AbstractService implements IOrder {
 	public Order getOrderByNumber(String number) {
 		Order order;
 		order = jdbcTemplate.queryForObject(
-				"select * from orders where (number) = (?)", new Object[] { number },
-				new OrderRowMapper());
+				"select * from orders where (number) = (?)",
+				new Object[] { number }, new OrderRowMapper());
 		return order;
 	}
 
 	@Override
 	public Set<Order> getOrderUser(int users_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Order> getOrders(Calendar dateFrom, Calendar dateTo,
-			int status_pay, int status_release, int status_cansel,
-			int status_confirm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -81,6 +72,21 @@ public class OrderService extends AbstractService implements IOrder {
 		return jdbcTemplate
 				.query("select * from orders where confirm_status_id=? and cansel_status_id=?",
 						new Object[] { confirmStatus, canselStatus },
+						new OrderRowMapper());
+	}
+
+	@Override
+	public Order getOrderById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Order> getOrdersList(int confirmStatus, int canselStatus,
+			Calendar date) {
+		return jdbcTemplate
+				.query("select * from orders where confirm_status_id=? and cansel_status_id=? and date_order>=?",
+						new Object[] { confirmStatus, canselStatus, date },
 						new OrderRowMapper());
 	}
 

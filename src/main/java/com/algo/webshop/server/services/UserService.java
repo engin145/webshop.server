@@ -77,9 +77,7 @@ public class UserService extends AbstractService implements IUser {
 	@Override
 	public String getUserName(int id) {
 		String SQL = "select name from users where id = ?";
-		String name = jdbcTemplate.queryForObject(SQL, new Object[] { id },
-				String.class);
-
+		String name = jdbcTemplate.queryForObject(SQL, new Object[]{id}, String.class);
 		return name;
 	}
 
